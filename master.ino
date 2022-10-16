@@ -27,10 +27,10 @@ int CyPosition = 0;
 
 //----------------------------------------FONCTION PARKING -- DEFINITION LINE 93 -----------------
 
-int get_joystickRover(VRx, VRy);
-int get_joystickCamera(CRx, CRy);
-int get_locomotion(mapX, mapY);
-int get_cameramotion(mapCx, mapCy);
+joystick get_joystickRover(VRx, VRy, joystick rover);
+joystick get_joystickCamera(CRx, CRy, joystick camera);
+motion get_locomotion(mapX, mapY, joystick rover, motion Mrover);
+motion get_cameramotion(mapCx, mapCy, joystick camera, motion Mcamera);
 void moveRover(Mrover);
 void moveCamera(Mcamera);
 
@@ -80,16 +80,16 @@ int loop (void) //--------------------------------------ACTUAL PROGRAM ---------
  joystick camera;
  motion Mrover;
  motion Mcamera;
- rover = get_joystickRover(VRx, VRy);
- camera = get_joystickCamera(CRx, CRy);
- Mrover = get_locomotion(rover);
- Mcamera = get_cameramotion(camera);
+ rover = get_joystickRover(VRx, VRy, joystick rover);
+ camera = get_joystickCamera(CRx, CRy, joystick camera);
+ Mrover = get_locomotion(joystick rover, motion Mrover);
+ Mcamera = get_cameramotion(joystick camera, motion Mcamera);
  moveRover(Mrover);
  moveCamera(Mcamera);
 }
 
 //-----------------------------------------------------FONCTION DEFINITION------------------------------------------------
-int get_joystickRover(VRx, VRy, joystick rover)
+joystick get_joystickRover(VRx, VRy, joystick rover)
 {
     RxPosition = analogRead(VRx);
     RyPosition = analogRead(VRy);
@@ -99,7 +99,7 @@ int get_joystickRover(VRx, VRy, joystick rover)
     return rover;
 }
 
-int get_joystickCamera(CRx, CRy, joystick camera);
+joystick get_joystickCamera(CRx, CRy, joystick camera);
 {
     CxPosition = analogRead(CRx);
     CyPosition = analogRead(CRy);
@@ -109,7 +109,7 @@ int get_joystickCamera(CRx, CRy, joystick camera);
     return camera;
 }
 
-int get_locomotion(joystick rover, motion Mrover)
+motion get_locomotion(joystick rover, motion Mrover)
 {
   Mrover.direction = 0;
   Mrover.force = 0;
@@ -155,7 +155,7 @@ int get_locomotion(joystick rover, motion Mrover)
 
   return Mrover;
 }
-int get_cameramotion(joystick camera, motion Mcamera)
+motion get_cameramotion(joystick camera, motion Mcamera)
 {
   //------------------------------Condition Direction ------------------------------------
    if (camera.mapX < 0) //     1 = up 2 = down 3 = left 4 = right 0 = NUL
