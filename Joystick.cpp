@@ -1,66 +1,86 @@
 #include "joystick.h"
 #include <math.h>
 
-Joystick::Joystick(float axisX, float axisY){
-  pinMode(axisX, INPUT);
-  pinMode(axisY, INPUT);
-  float x = map(analogRead(axisX), 0, 1023, 100, 100);  // dont update dont knoe why
-  float y = map(analogRead(axisY), 0, 1023, -100, 100);
-  this -> angle = get_angles(this->x, this->y);
-  this -> forces = get_forces(this->x, this->y);
+#include <Arduino.h>
+
+Joystick::Joystick(uint8_t pinX, uint8_t pinY){
+  pinx = pinX;
+  piny = pinY;
+  float x;
+  float y;
+  float angle;
+  float forces;
 }
-  
 
+void Joystick::begin(){
+  pinMode(pinx, INPUT);
+  pinMode(piny, INPUT);
+}
 
-float Joystick::get_angles(float x, float y){
-  
-// get an angle from noon (or y axis) with logic tan0 = opposit / adjacent
+void Joystick::update(){
+  x = map(analogRead(pinx),0,1023,100,-100);
+  y = map(analogRead(piny),0, 1023, -100, 100);
+  get_angle();
+  get_forces();
+}
+void Joystick::get_angle(){
 
   const long CONV = 180 / 3.14159265358979323846; // convert radian to degree
 
   if (x > 0 && y > 0){
     // first cadrant o = y, a = x
     float angle = atan(y / x) * CONV ;
-    return 90 - angle;
+    angle = 90 - angle;
   }
   else if (x > 0 && y < 0) {
     // a = x, y = o
     y = y * -1;
-    return 90 + atan( y / x) * CONV;
+    angle = 90 + atan( y / x) * CONV;
   }
   else if (x < 0 && y < 0){
   // a = y, o = x
     x = x * -1;
     y = y * -1;
-    return 180 + atan(x / y) * CONV;
+    angle = 180 + atan(x / y) * CONV;
   }
   else if (x < 0 && y >0){
   // a = y, o = x
   x = x * -1;
-  return 270 + atan(x/y) * CONV;
+  angle = 270 + atan(x/y) * CONV;
   }
   else if (x == 0 && y > 0){
-    return 0;
+    angle = 0;
   }
   else if (x == 0 && y < 0 ){
-    return 180;
+    angle = 180;
   }
   else if (y == 0 && x > 0){
-    return 90;
+    angle = 90;
+  }
+  else if (y == 0 && x == 0){
+    angle = 0;
   }
   else {
-    return 270;
+    angle = 270;
   }
+
+
 }
 
-float Joystick::get_forces(float x, float y){
-  
-  // simple average of absolute value
-if (x < 0){
-  x = -1 * x;
-}
-if (y < 0){
-  y = -1 * y;
-}
-return (x + y) / 2;
+void Joystick::get_forces(){
+  float a;
+  float b;
+  if (x < 0) {
+    a = x * -1;
+  }
+  else{
+    a = x;
+  }
+  if (y < 0){
+    b = y * -1;
+  }
+  else {
+    b = y;
+  }
+  forces = (a+b)/2;
 }
