@@ -85,7 +85,12 @@ void Joystick::get_forces(){
   else {
     b = y;
   }
-  forces = (a+b)/2;
+  if (b > a) {
+    forces = b * 2;
+    }
+  else {
+    forces = a * 2;
+    }
 }
 
 bool Joystick::ispressed(){
