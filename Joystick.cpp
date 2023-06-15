@@ -3,9 +3,10 @@
 
 #include <Arduino.h>
 
-Joystick::Joystick(uint8_t pinX, uint8_t pinY){
+Joystick::Joystick(uint8_t pinX, uint8_t pinY, uint8_t pinP){
   pinx = pinX;
   piny = pinY;
+  pinp = pinP;
   float x;
   float y;
   float angle;
@@ -15,11 +16,13 @@ Joystick::Joystick(uint8_t pinX, uint8_t pinY){
 void Joystick::begin(){
   pinMode(pinx, INPUT);
   pinMode(piny, INPUT);
+  pinMode(pinp, INPUT);
 }
 
 void Joystick::update(){
   x = map(analogRead(pinx),0,1023,100,-100);
   y = map(analogRead(piny),0, 1023, -100, 100);
+  p = analogRead(pinp);
   get_angle();
   get_forces();
 }
@@ -84,3 +87,12 @@ void Joystick::get_forces(){
   }
   forces = (a+b)/2;
 }
+
+bool Joystick::ispressed(){
+  if (p == HIGH){
+    return false;
+  }
+  else{
+    return true;
+  }
+  }
