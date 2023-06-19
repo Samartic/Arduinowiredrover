@@ -12,6 +12,6 @@ class Transmission{
     bool b2;
     void update()
 
-  }
+  };
 
 #endif
