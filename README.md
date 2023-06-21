@@ -14,16 +14,47 @@ To simplify as much the main code of the remote (manette.ino) and rovy(rover.ino
 
 ## Joystick.h
 
-This librairy contain the class of a joystick as i wish it to exist. 
-to declare one you simply put the pin of the axis and the press button.
-The begin() method must be use in the void setup() section to intiate the joystick or 
-if you prefer declare the pinMode as input. in the void loop() section you have to use the update() 
-method to make sure to get a valid reading. then you can acces a bunch of different information:
+This technical text provides a detailed overview of a class-based joystick implementation that can be integrated with Arduino. The joystick class encompasses three private attributes: Arduino pins for the X-axis, Y-axis, and the press button. Additionally, four public attributes are defined for mapping the joystick values: X-axis (mapped -100 to 100), Y-axis (mapped -100 to 100), angle, and forces (mapped 0 to 100). The class also includes two essential methods: "begin" to initialize the pin mode and "update" to read analog input and update the public attributes accordingly.
 
-x : value on X axis already map
-y : value on Y axis already map
-angle : get an angle from y=0 positive with a p(x,y) passing throught origine.
-forces: get the force 0 to 100
+### Introduction
+The joystick is a popular input device used in various applications, including gaming, robotics, and remote control systems. This guide aims to provide a comprehensive understanding of a class-based joystick implementation with Arduino, allowing developers to integrate joystick functionality into their projects seamlessly.
+
+### Joystick Class Structure
+The joystick class is designed to encapsulate the joystick's behavior and provide a user-friendly interface for interaction. It consists of private and public attributes along with two essential methods.
+
+#### 2.1 Private Attributes
+The joystick class contains three private attributes:
+
+arduino_pin_x: Represents the Arduino pin assigned to the X-axis of the joystick.
+arduino_pin_y: Represents the Arduino pin assigned to the Y-axis of the joystick.
+arduino_pin_press: Represents the Arduino pin assigned to the press button of the joystick.
+
+#### 2.2 Public Attributes
+The joystick class exposes four public attributes:
+
+x: Represents the current position of the joystick on the X-axis, mapped between -100 and 100.
+y: Represents the current position of the joystick on the Y-axis, mapped between -100 and 100.
+angle: Represents the angle of the joystick's position with respect to the origin.
+forces: Represents the force or magnitude of the joystick's position, mapped between 0 and 100.
+Joystick Class Methods
+The joystick class provides two essential methods that facilitate the initialization and updating of the joystick's attributes.
+
+#### 3.1 Begin Method
+The "begin" method is responsible for initializing the joystick by setting the pin modes of the Arduino pins used for the joystick's components. This method should be called once during the setup phase of the Arduino sketch.
+
+```C++
+void begin() {
+    pinMode(arduino_pin_x, INPUT);
+    pinMode(arduino_pin_y, INPUT);
+    pinMode(arduino_pin_press, INPUT_PULLUP);
+}
+```
+#### 3.2 Update Method
+The "update" method reads the analog input values from the joystick's X-axis, Y-axis, and the press button, and updates the public attributes accordingly. This method should be called periodically in the main loop of the Arduino sketch.
+
+
+### Conclusion
+By implementing the joystick class described in this technical text, developers can easily integrate joystick functionality into their Arduino projects. The class's private
 
 ## MotorDriver
 
