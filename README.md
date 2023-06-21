@@ -22,14 +22,14 @@ The joystick is a popular input device used in various applications, including g
 ### Joystick Class Structure
 The joystick class is designed to encapsulate the joystick's behavior and provide a user-friendly interface for interaction. It consists of private and public attributes along with two essential methods.
 
-#### 2.1 Private Attributes
+#### Private Attributes
 The joystick class contains three private attributes:
 
 arduino_pin_x: Represents the Arduino pin assigned to the X-axis of the joystick.
 arduino_pin_y: Represents the Arduino pin assigned to the Y-axis of the joystick.
 arduino_pin_press: Represents the Arduino pin assigned to the press button of the joystick.
 
-#### 2.2 Public Attributes
+#### Public Attributes
 The joystick class exposes four public attributes:
 
 x: Represents the current position of the joystick on the X-axis, mapped between -100 and 100.
@@ -39,7 +39,7 @@ forces: Represents the force or magnitude of the joystick's position, mapped bet
 Joystick Class Methods
 The joystick class provides two essential methods that facilitate the initialization and updating of the joystick's attributes.
 
-#### 3.1 Begin Method
+#### Begin Method
 The "begin" method is responsible for initializing the joystick by setting the pin modes of the Arduino pins used for the joystick's components. This method should be called once during the setup phase of the Arduino sketch.
 
 ```C++
@@ -49,7 +49,7 @@ void begin() {
     pinMode(arduino_pin_press, INPUT_PULLUP);
 }
 ```
-#### 3.2 Update Method
+#### Update Method
 The "update" method reads the analog input values from the joystick's X-axis, Y-axis, and the press button, and updates the public attributes accordingly. This method should be called periodically in the main loop of the Arduino sketch.
 
 
