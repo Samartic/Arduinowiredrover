@@ -11,6 +11,7 @@ Communication will be made over the TX-RX port to keep as much analog pin availi
 Radio communication is off the table because most pipe material might affect negatively the signal.
 
 To simplify as much the main code of the remote (manette.ino) and rovy(rover.ino) I made class that could be use for other purposes.
+## camera.h (coming soon)
 
 ## Joystick.h
 
@@ -57,7 +58,7 @@ The "update" method reads the analog input values from the joystick's X-axis, Y-
 
 By implementing the joystick class described in this technical text, developers can easily integrate joystick functionality into their Arduino projects. The class's private
 
-## MotorDriver
+## MotorDriver.h
 
 This technical text presents the MotorDriver class, designed to handle motor control operations efficiently. The class incorporates private attributes for three pins: EN1 (Enable Pin), IN1 (Input Pin 1), and IN2 (Input Pin 2). It also provides two essential methods: "begin" for initializing the pin mode and "move" for controlling the motor's movement based on a provided force value (-100 to 100), where negativity represents the opposite direction.
 
@@ -164,10 +165,12 @@ The "move" method controls the rover's movement based on the provided force vect
 The Rover class presented in this technical text simplifies the control of a robotic rover using two MotorDriver instances. By encapsulating motor functionality and providing an intuitive interface, developers can easily initialize the rover and control its movement using a vector representation. Incorporating the Rover class into Arduino projects enables efficient and precise rover control.
 
 
-## transmission
+## transmission.h
 
 This was the easiest way to handle the transmission between the two arduinos.
 because i had to send 4 float and 2 bool, and i was to lazy to get the chart to do the calculation manually
+which are an angle, a forces (to be transforme as a vector in reception) bool pressed for the first joystick, x, y and a bool for the second joystick for the camera.
+
 
 ## Vector.h
 
