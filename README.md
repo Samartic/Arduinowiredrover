@@ -156,8 +156,8 @@ void begin() {
 }
 ```
 
-#### move(Vector forceVector) Method
-The "move" method controls the rover's movement based on the provided force vector. The force vector, represented by an instance of the Vector class, contains the forces to be distributed between the two motors. The forces will be redistributed to ensure precise rover control. Remember that a vector as an angle and a forces.
+#### move(Vector forceVector, bool pressed) Method
+The "move" method controls the rover's movement based on the provided force vector. The force vector, represented by an instance of the Vector class, contains the forces to be distributed between the two motors. The forces will be redistributed to ensure precise rover control. Remember that a Vector as an angle and a forces. the bool "pressed" represent a pressed button on the button for a detail/slower approche.
 
 
 
