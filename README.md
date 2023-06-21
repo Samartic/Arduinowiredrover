@@ -1,4 +1,4 @@
-# Arduinowiredrover
+# Arduino wired rover
 Arduino wired rover project
 
 This project is ment to thod a little rover with camera
