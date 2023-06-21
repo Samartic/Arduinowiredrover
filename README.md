@@ -54,13 +54,73 @@ The "update" method reads the analog input values from the joystick's X-axis, Y-
 
 
 ### Conclusion
+
 By implementing the joystick class described in this technical text, developers can easily integrate joystick functionality into their Arduino projects. The class's private
 
 ## MotorDriver
 
-On the same concept of the Joystick.h, I wanted to make a class to properly take care of everything.
-you declare it with the pin associated (en1, in1 in2), method begin() server te purpose of intiated the pinmode.
-the method move take a forces(-100, 100) the negativity represent the opposite direction.
+This technical text presents the MotorDriver class, designed to handle motor control operations efficiently. The class incorporates private attributes for three pins: EN1 (Enable Pin), IN1 (Input Pin 1), and IN2 (Input Pin 2). It also provides two essential methods: "begin" for initializing the pin mode and "move" for controlling the motor's movement based on a provided force value (-100 to 100), where negativity represents the opposite direction.
+
+### Introduction
+
+The MotorDriver class aims to simplify motor control operations by encapsulating the necessary functionality into a single class. This guide explores the structure and usage of the MotorDriver class, which enables developers to control motors with ease, considering the forces (-100 to 100).
+
+### MotorDriver Class Structure
+The MotorDriver class consists of private attributes and two essential methods for motor control.
+
+#### Private Attributes
+The MotorDriver class incorporates three private attributes:
+- en1_pin: Represents the Arduino pin associated with the motor's enable pin (EN1).
+- in1_pin: Represents the Arduino pin associated with the motor's input pin 1 (IN1).
+- in2_pin: Represents the Arduino pin associated with the motor's input pin 2 (IN2).
+
+#### Public Methods
+The MotorDriver class provides two public methods:
+- begin(): Initializes the MotorDriver by setting the pin modes of the associated Arduino pins.
+- move(int force): Controls the motor's movement based on the provided force value, where negativity represents the opposite direction.
+
+### MotorDriver Class Methods
+The MotorDriver class includes two crucial methods for initializing the pin mode and controlling the motor's movement.
+
+#### begin() Method
+The "begin" method initializes the MotorDriver by setting the pin modes for the associated Arduino pins (EN1, IN1, IN2). This method should be called once during the setup phase of the Arduino sketch.
+
+```c++
+void begin() {
+    pinMode(en1_pin, OUTPUT);
+    pinMode(in1_pin, OUTPUT);
+    pinMode(in2_pin, OUTPUT);
+}
+```
+
+#### move(int force) Method
+The "move" method controls the motor's movement based on the provided force value. The force value ranges from -100 to 100, where negativity represents the opposite direction. A positive force value rotates the motor in one direction, while a negative force value rotates it in the opposite direction. The absolute value of the force represents the intensity of the motor's movement.
+
+Pseudocode:
+```c++
+void move(int force) {
+    // Determine the direction based on the sign of the force value
+    if (force > 0) {
+        digitalWrite(in1_pin, HIGH);
+        digitalWrite(in2_pin, LOW);
+    } else if (force < 0) {
+        digitalWrite(in1_pin, LOW);
+        digitalWrite(in2_pin, HIGH);
+    } else {
+        // If force is zero, stop the motor
+        digitalWrite(in1_pin, LOW);
+        digitalWrite(in2_pin, LOW);
+        return;
+    }
+
+    // Map the force value from the range -100 to 100 to the range 0 to 255 for analogWrite
+    int speed = map(abs(force), 0, 100, 0, 255);
+    analogWrite(en1_pin, speed);
+}
+```
+
+### Conclusion
+By utilizing the MotorDriver class as outlined in this technical text, developers can effectively control motors with ease. The class encapsulates the motor control operations, including pin initialization and movement control based on force values. With this class, developers can integrate motor control into their Arduino projects effortlessly.
 
 ## Rover.h
 
