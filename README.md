@@ -124,9 +124,44 @@ By utilizing the MotorDriver class as outlined in this technical text, developer
 
 ## Rover.h
 
-The rover class take two MotorDriver. If you are as effective as me you can juste intialise those to motor with rover.begin()
-without doing int for the motor individually. Rover as an other method call move that take a Vector (see Vector.h) and will redistribute 
-the right force to give to each motor.
+This technical text presents the Rover class, designed to control a robotic rover using two MotorDriver instances. The Rover class encapsulates the functionality of two motors, utilizing the MotorDriver class. The class provides a simplified interface for initialization and movement control using a vector representation. The movement vector determines the forces to be distributed between the two motors, allowing precise rover control.
+
+### Introduction
+The Rover class is designed to facilitate the control of a robotic rover by encapsulating the functionality of two motors using instances of the MotorDriver class. This guide explains the structure and usage of the Rover class, allowing developers to easily initialize and control the movement of the rover using a vector representation.
+
+### Rover Class Structure
+The Rover class comprises private attributes, a begin() method for initialization, and a move() method for controlling the rover's movement.
+
+#### Private Attributes
+The Rover class incorporates the following private attribute:
+- motor1: Represents the first MotorDriver instance associated with one of the rover's motors.
+- motor2: Represents the second MotorDriver instance associated with the other rover motor.
+
+#### Public Methods
+The Rover class provides two public methods:
+- begin(): Initializes both motors simultaneously by calling the begin() method of the MotorDriver instances.
+- move(Vector forceVector): Controls the rover's movement based on the provided force vector, distributing the appropriate forces to each motor.
+
+### Rover Class Methods
+The Rover class includes two crucial methods for initialization and controlling the rover's movement.
+
+#### begin() Method
+The "begin" method initializes both motors simultaneously by calling the begin() method of each MotorDriver instance (motor1 and motor2). This method should be called once during the setup phase of the Arduino sketch.
+
+```C++
+void begin() {
+    motor1.begin();
+    motor2.begin();
+}
+```
+
+#### move(Vector forceVector) Method
+The "move" method controls the rover's movement based on the provided force vector. The force vector, represented by an instance of the Vector class, contains the forces to be distributed between the two motors. The forces will be redistributed to ensure precise rover control. Remember that a vector as an angle and a forces.
+
+
+
+### Conclusion
+The Rover class presented in this technical text simplifies the control of a robotic rover using two MotorDriver instances. By encapsulating motor functionality and providing an intuitive interface, developers can easily initialize the rover and control its movement using a vector representation. Incorporating the Rover class into Arduino projects enables efficient and precise rover control.
 
 
 ## transmission
