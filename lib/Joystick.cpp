@@ -94,10 +94,5 @@ void Joystick::get_forces(){
 }
 
 bool Joystick::ispressed(){
-  if (p == HIGH){
-    return false;
-  }
-  else{
-    return true;
-  }
-  }
+  return (p != HIGH)
+}
