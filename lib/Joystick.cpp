@@ -1,7 +1,8 @@
-#include "joystick.h"
+#include "Joystick.h"
 #include <math.h>
 
 #include <Arduino.h>
+float get_axis(float x, float y);
 
 Joystick::Joystick(uint8_t pinX, uint8_t pinY, uint8_t pinP){
   pinx = pinX;
@@ -11,20 +12,23 @@ Joystick::Joystick(uint8_t pinX, uint8_t pinY, uint8_t pinP){
   float y;
   float angle;
   float forces;
+  int clicked;
 }
 
 void Joystick::begin(){
   pinMode(pinx, INPUT);
   pinMode(piny, INPUT);
   pinMode(pinp, INPUT);
+  clicked = 0;
 }
 
 void Joystick::update(){
-  x = map(analogRead(pinx),0,1023,100,-100);
-  y = map(analogRead(piny),0, 1023, -100, 100);
+  x = analogRead(pinx);
+  y = analogRead(piny);
   p = analogRead(pinp);
   get_angle();
   get_forces();
+  clicked = (p == LOW) ? clicked++: clicked;
 }
 void Joystick::get_angle(){
 
@@ -66,33 +70,32 @@ void Joystick::get_angle(){
   else {
     angle = 270;
   }
-
-
 }
 
 void Joystick::get_forces(){
   float a;
   float b;
-  if (x < 0) {
-    a = x * -1;
-  }
-  else{
-    a = x;
-  }
-  if (y < 0){
-    b = y * -1;
-  }
-  else {
-    b = y;
-  }
-  if (b > a) {
-    forces = b * 2;
-    }
-  else {
-    forces = a * 2;
-    }
+  float mappedx = map(x, 0, 1023,-100,100);
+  float mappedy = map(y, 0, 1023, -100, 100);
+  a = (mappedx < 0) ? abs(mappedx): mappedx;
+  b = (mappedy < 0) ? abs(mappedy): mappedy;
+  forces = (b > a) ? b: a;
+    
 }
 
 bool Joystick::ispressed(){
   return (p != HIGH);
 }
+
+bool Joystick::isengaged(){
+  return clicked % 2 != 0;
+}
+
+int Joystick::countclick(){
+  return clicked;
+}
+void Joystick::resetclick(){
+  clicked = 0;
+}
+
+
