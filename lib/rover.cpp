@@ -12,13 +12,8 @@ void Rover::move(Vector v, bool p){
 
   // calibrating to see if we are in detail mode
 
-  float f;
-  if (p == True){
-    f = v.forces /2;
-  }
-  else:{
-    f = v.forces;
-  }
+float f = (p == True) ? (v.forces /2): v.forces;
+
 
 // deciding which force to apply depending of the angle
 float a = v.angle;
