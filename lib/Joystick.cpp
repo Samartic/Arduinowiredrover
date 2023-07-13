@@ -15,11 +15,12 @@ Joystick::Joystick(uint8_t pinX, uint8_t pinY, uint8_t pinP){
   int clicked;
 }
 
+
 void Joystick::begin(){
   pinMode(pinx, INPUT);
   pinMode(piny, INPUT);
   pinMode(pinp, INPUT);
-  clicked = 0;
+  clicked = 0; 
 }
 
 void Joystick::update(){
@@ -29,6 +30,7 @@ void Joystick::update(){
   get_angle();
   get_forces();
   clicked = (p == LOW) ? clicked++: clicked;
+
 }
 void Joystick::get_angle(){
 
@@ -70,12 +72,14 @@ void Joystick::get_angle(){
   else {
     angle = 270;
   }
+
+
 }
 
 void Joystick::get_forces(){
   float a;
   float b;
-  float mappedx = map(x, 0, 1023,-100,100);
+  float mappedx = map(x, 0, 1023, -100, 100);
   float mappedy = map(y, 0, 1023, -100, 100);
   a = (mappedx < 0) ? abs(mappedx): mappedx;
   b = (mappedy < 0) ? abs(mappedy): mappedy;
