@@ -15,12 +15,11 @@ Joystick::Joystick(uint8_t pinX, uint8_t pinY, uint8_t pinP){
   int clicked;
 }
 
-
 void Joystick::begin(){
   pinMode(pinx, INPUT);
   pinMode(piny, INPUT);
   pinMode(pinp, INPUT);
-  clicked = 0; 
+  clicked = 0;
 }
 
 void Joystick::update(){
@@ -30,44 +29,38 @@ void Joystick::update(){
   get_angle();
   get_forces();
   clicked = (p == LOW) ? clicked++: clicked;
-
 }
 void Joystick::get_angle(){
 
   const long CONV = 180 / 3.14159265358979323846; // convert radian to degree
 
-  if (x > 0 && y > 0){
-    // first cadrant o = y, a = x
-    float angle = atan(y / x) * CONV ;
-    angle = 90 - angle;
+  float mappedx = map(x, 0, 1023, -100, 100);
+  float mappedy = map(y, 0, 1023, -100, 100);
+
+  if (mappedx > 0 && mappedy > 0){
+    // first cadrant o = y, a = mappedx
+    float angle = 90 - atan(mappedy / mappedx) * CONV;
   }
-  else if (x > 0 && y < 0) {
+  else if (mappedx > 0 && mappedy < 0) {
     // a = x, y = o
-    y = y * -1;
-    angle = 90 + atan( y / x) * CONV;
+    angle = 90 + atan(abs(mappedy) / mappedx) * CONV;
   }
-  else if (x < 0 && y < 0){
+  else if (mappedx < 0 && mappedy < 0){
   // a = y, o = x
-    x = x * -1;
-    y = y * -1;
-    angle = 180 + atan(x / y) * CONV;
+    angle = 180 + atan(abs(mappedx) / abs(mappedy)) * CONV;
   }
-  else if (x < 0 && y >0){
+  else if (mappedx < 0 && mappedy >0){
   // a = y, o = x
-  x = x * -1;
-  angle = 270 + atan(x/y) * CONV;
+  angle = 270 + atan(abs(mappedx)/mappedy) * CONV;
   }
-  else if (x == 0 && y > 0){
+  else if (mappedx == 0 && mappedy >= 0){
     angle = 0;
   }
-  else if (x == 0 && y < 0 ){
+  else if (mappedx == 0 && mappedy < 0 ){
     angle = 180;
   }
-  else if (y == 0 && x > 0){
+  else if (mappedy == 0 && mappedx > 0){
     angle = 90;
-  }
-  else if (y == 0 && x == 0){
-    angle = 0;
   }
   else {
     angle = 270;
@@ -79,11 +72,11 @@ void Joystick::get_angle(){
 void Joystick::get_forces(){
   float a;
   float b;
-  float mappedx = map(x, 0, 1023, -100, 100);
+  float mappedx = map(x, 0, 1023,-100,100);
   float mappedy = map(y, 0, 1023, -100, 100);
-  a = (mappedx < 0) ? abs(mappedx): mappedx;
-  b = (mappedy < 0) ? abs(mappedy): mappedy;
-  forces = (b > a) ? b: a;
+  a = abs(mappedx);  
+  b = abs(mappedy);
+  forces = (b >= a) ? b: a; // bigger of a or b;
     
 }
 
